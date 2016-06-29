@@ -1,0 +1,37 @@
+extends layout.jade
+
+mixin toolbar
+  md-toolbar(layout="row")
+    md-button.menu(hide-gt-sm="", ng-click="ul.toggleList()", aria-label="Show User List")
+      md-icon(md-svg-icon="menu")
+    h3 Angular Material Starter
+
+
+mixin sidenav
+  md-sidenav.md-whiteframe-4dp(
+      md-is-locked-open="$mdMedia('gt-sm')",
+      md-component-id="left",
+      ng-click="ul.toggleList()")
+    md-list
+      md-list-item(ng-repeat="u in ul.users")
+        md-button(ng-click="ul.selectUser(u)", ng-class="{'selected': u === ul.selected}")
+          md-icon.avatar(md-svg-icon="{{u.avatar}}")
+          {{u.name}}
+
+
+mixin content
+  md-content#content(flex="")
+    md-icon.avatar(md-svg-icon="{{ul.selected.avatar}}")
+    h2 {{ul.selected.name}}
+    p {{ul.selected.content}}
+
+    md-button.share(md-no-ink="", ng-click="ul.makeContact(ul.selected)", aria-label="Share with {{ul.selected.name}}")
+      md-icon(md-svg-icon="share")
+
+
+block main
+  +toolbar
+
+  div(flex="", layout="row")
+    +sidenav
+    +content
